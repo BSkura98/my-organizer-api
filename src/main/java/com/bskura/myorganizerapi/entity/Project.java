@@ -1,8 +1,22 @@
 package com.bskura.myorganizerapi.entity;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
+@Entity
+@Table
 public class Project {
+    @Id
+    @SequenceGenerator(
+            name="project_sequence",
+            sequenceName = "project_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "project_sequence"
+    )
     private Long id;
     private String name;
     private String description;

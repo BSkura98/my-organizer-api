@@ -17,14 +17,19 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
+    @PostMapping
+    public void createProject(@RequestBody Project project) {
+        projectService.createProject(project);
+    }
+
     @GetMapping
     public List<Project> getProjects() {
         return projectService.getProjects();
     }
 
-    @PostMapping
-    public void createProject(@RequestBody Project project) {
-        projectService.createProject(project);
+    @PutMapping(path="{id}")
+    public void updateProject(@PathVariable("id") Long id, @RequestParam(required = false) String name, @RequestParam(required = false) String description) {
+        projectService.updateProject(id, name, description);
     }
 
     @DeleteMapping(path="{id}")

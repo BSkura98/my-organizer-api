@@ -3,9 +3,7 @@ package com.bskura.myorganizerapi.controller;
 import com.bskura.myorganizerapi.entity.Project;
 import com.bskura.myorganizerapi.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +20,10 @@ public class ProjectController {
     @GetMapping
     public List<Project> getProjects() {
         return projectService.getProjects();
+    }
+
+    @PostMapping
+    public void createProject(@RequestBody Project project) {
+        projectService.createProject(project);
     }
 }

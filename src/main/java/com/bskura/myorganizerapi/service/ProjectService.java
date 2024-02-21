@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class ProjectService {
         if(projectOptional.isPresent()) {
             throw new IllegalStateException("Project with this name already exists");
         }
+        project.setCreationDate(LocalDate.now());
         projectRepository.save(project);
     }
 

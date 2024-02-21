@@ -30,8 +30,7 @@ public class Project {
         this.description = description;
     }
 
-    public Project(Long id, String name, String description, LocalDate creationDate) {
-        this.id = id;
+    public Project(String name, String description, LocalDate creationDate) {
         this.name = name;
         this.description = description;
         this.creationDate = creationDate;

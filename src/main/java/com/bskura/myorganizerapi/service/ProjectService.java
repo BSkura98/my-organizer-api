@@ -30,4 +30,12 @@ public class ProjectService {
         }
         projectRepository.save(project);
     }
+
+    public void deleteProject(Long id) {
+        boolean projectExists = projectRepository.existsById(id);
+        if(!projectExists){
+            throw new IllegalStateException("Project with id " + id + " does not exist");
+        }
+        projectRepository.deleteById(id);
+    }
 }

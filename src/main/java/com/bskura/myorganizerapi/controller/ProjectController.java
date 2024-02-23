@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "projects")
@@ -25,6 +26,11 @@ public class ProjectController {
     @GetMapping
     public List<Project> getProjects() {
         return projectService.getProjects();
+    }
+
+    @PatchMapping("/{id}")
+    public Project updateProject(@PathVariable Long id, @RequestBody Map<String, Object> fields){
+        return projectService.updateProject(id, fields);
     }
 
     @PutMapping(path="{id}")

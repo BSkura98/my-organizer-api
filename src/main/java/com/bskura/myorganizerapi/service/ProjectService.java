@@ -5,10 +5,13 @@ import com.bskura.myorganizerapi.repository.ProjectRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -50,6 +53,28 @@ public class ProjectService {
         if (description != null && !description.isEmpty() && !Objects.equals(project.getDescription(), description)){
             project.setDescription(description);
         }
+    }
+
+    public Project updateProject(Long id, Map<String, Object> fields) {
+        Project project = projectRepository.findById(id).orElseThrow(()-> new IllegalStateException("Project with id " + id + " does not exist"));
+
+        fields.forEach((key, value) -> {
+            if(!(key.equals("id") || key.equals("creationDate"))){
+                if(Objects.equals(key, "name")){
+                    if(value != null && !((String)value).isEmpty() && !Objects.equals(project.getName(), value)){
+                        Optional<Project> projectOptional = projectRepository.findProjectByName((String)value);
+                        if(projectOptional.isPresent()){
+                            throw new IllegalStateException("Project with this name already exists");
+                        }
+                    }
+                }
+
+                Field field = ReflectionUtils.findField(Project.class, key);
+                field.setAccessible(true);
+                ReflectionUtils.setField(field, project, value);
+            }
+        });
+        return projectRepository.save(project);
     }
 
     public void deleteProject(Long id) {
